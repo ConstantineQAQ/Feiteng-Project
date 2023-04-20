@@ -124,4 +124,8 @@ void UserInfoDialog::editData(int row)
     }
 }
 
-
+void UserInfoDialog::on_add_PushButton_clicked()
+{
+    AddUserDialog *addUserDialog = new AddUserDialog;
+    addUserDialog->exec();
+}

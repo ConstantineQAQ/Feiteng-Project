@@ -2,7 +2,7 @@ QT       += core gui sql serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++11 resources_big
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adduserdialog.cpp \
     databaseutils.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     userinfodialog.cpp
 
 HEADERS += \
+    adduserdialog.h \
     databaseutils.h \
     mainwindow.h \
     userdialog.h \
@@ -31,6 +33,7 @@ HEADERS += \
     userinfodialog.h
 
 FORMS += \
+    adduserdialog.ui \
     mainwindow.ui \
     userdialog.ui \
     usereditdialog.ui \
@@ -51,3 +54,6 @@ LIBS += /usr/local/lib/libopencv_highgui.so \
         /usr/local/lib/libopencv_imgcodecs.so \
         /usr/local/lib/libopencv_objdetect.so \
         /usr/local/lib/libopencv_videoio.so
+
+RESOURCES += \
+    pic.qrc

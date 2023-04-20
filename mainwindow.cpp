@@ -19,8 +19,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_login_pushButton_clicked()
 {
-    QString username = ui->name_lineEdit_2->text();
-    QString password = ui->pwd_lineEdit_2->text();
+    QString username = ui->name_lineEdit->text();
+    QString password = ui->pwd_lineEdit->text();
     if(datautils->is_checked(username,password)){
         qInfo() << "\033[32m登录成功\033[0m" ;
         UserInfoDialog *userInfoDialog = new UserInfoDialog(this);

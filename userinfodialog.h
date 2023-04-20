@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QHBoxLayout>
 #include <usereditdialog.h>
+#include <adduserdialog.h>
 
 namespace Ui {
 class UserInfoDialog;
@@ -21,6 +22,9 @@ class UserInfoDialog : public QDialog
 public:
     explicit UserInfoDialog(QWidget *parent = nullptr);
     ~UserInfoDialog();
+
+private slots:
+    void on_add_PushButton_clicked();
 
 private:
     Ui::UserInfoDialog *ui;

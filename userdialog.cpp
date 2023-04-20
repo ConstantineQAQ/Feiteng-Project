@@ -11,37 +11,7 @@ UserDialog::UserDialog(QWidget *parent) :
 
     openCamera();
 
-    //openSerial();
-    serial = new QSerialPort(this);
-    currentMode = TempMode::Body;
-    QSerialPortInfo info;
-
-    foreach(const QSerialPortInfo &serialPortInfo,QSerialPortInfo::availablePorts()){
-        if(serialPortInfo.portName().contains("ttyUSB0")){
-            info = serialPortInfo;
-            break;
-        }
-    }
-    serial->setPort(info);
-    serial->setBaudRate(QSerialPort::Baud9600);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
-    if(!serial->open(QIODevice::ReadWrite)){
-        qCritical() << "串口打开失败";
-    }
-
-    timer = new QTimer(this);
-    timer->setInterval(1000);
-
-    connect(serial,&QSerialPort::readyRead,this,&UserDialog::onSerialDataReceived);
-    connect(timer,&QTimer::timeout,this,&UserDialog::onTimerTimeout);
-
-    QByteArray bodyTempModeCmd = QByteArray::fromHex("FAC5BF");
-    serial->write(bodyTempModeCmd);
-
-    timer->start();
+    openSerial();
 }
 
 UserDialog::~UserDialog()
@@ -137,8 +107,8 @@ void UserDialog::openCamera()
 void UserDialog::openSerial()
 {
     serial = new QSerialPort(this);
+    currentMode = TempMode::Body;
     QSerialPortInfo info;
-
     foreach(const QSerialPortInfo &serialPortInfo,QSerialPortInfo::availablePorts()){
         if(serialPortInfo.portName().contains("ttyUSB0")){
             info = serialPortInfo;
@@ -151,19 +121,20 @@ void UserDialog::openSerial()
     serial->setParity(QSerialPort::NoParity);
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::NoFlowControl);
-
     if(!serial->open(QIODevice::ReadWrite)){
         qCritical() << "串口打开失败";
     }
 
     timer = new QTimer(this);
-    QByteArray bodyTempModeCmd = QByteArray::fromHex("FACBF");
-    QByteArray startMeasuringCmd = QByteArray::fromHex("FACAC4");
-    serial->write(bodyTempModeCmd);
-    serial->write(startMeasuringCmd);
-    connect(timer,&QTimer::timeout,this,&UserDialog::onTimerTimeout);
+    timer->setInterval(1000);
+
     connect(serial,&QSerialPort::readyRead,this,&UserDialog::onSerialDataReceived);
-    timer->start(100);
+    connect(timer,&QTimer::timeout,this,&UserDialog::onTimerTimeout);
+
+    QByteArray bodyTempModeCmd = QByteArray::fromHex("FAC5BF");
+    serial->write(bodyTempModeCmd);
+
+    timer->start();
 }
 
 void UserDialog::on_Select_PushButton_clicked()
